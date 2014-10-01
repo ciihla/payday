@@ -18,8 +18,11 @@ module Payday
       def self.pdf(invoice)
         pdf = Prawn::Document.new(:page_size => invoice_or_default(invoice, :page_size))
 
+        pdf.font_families.update(Payday::Config.default.pdf_font_families) if Payday::Config.default.pdf_font_families
+        pdf.font Payday::Config.default.pdf_font if Payday::Config.default.pdf_font
+
         # set up some default styling
-        pdf.font_size(8)
+        pdf.font_size(Payday::Config.default.pdf_font_size)
 
         stamp(invoice, pdf)
         company_banner(invoice, pdf)
